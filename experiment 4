@@ -1,0 +1,48 @@
+#include <stdio.h>
+#define MAX 10
+
+int queue[MAX];
+int front = -1, rear = -1;
+
+// Add process to ready queue
+void enqueue(int pid) {
+    if (rear == MAX - 1) {
+        printf("Ready Queue is Full!\n");
+        return;
+    }
+    if (front == -1)
+        front = 0;
+    queue[++rear] = pid;
+}
+
+// Remove process from ready queue
+int dequeue() {
+    if (front == -1 || front > rear)
+        return -1;
+    return queue[front++];
+}
+
+int main() {
+    int n, pid;
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    printf("Enter Process IDs:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &pid);
+        enqueue(pid);
+    }
+
+    printf("\n--- Scheduler Started ---\n");
+
+    while (front <= rear) {
+        pid = dequeue();
+        printf("Executing Process P%d...\n", pid);
+        printf("Process P%d Completed.\n\n", pid);
+    }
+
+    printf("--- All Processes Executed ---\n");
+
+    return 0;
+}
